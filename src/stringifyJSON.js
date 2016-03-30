@@ -7,12 +7,12 @@ var stringifyJSON = function(obj) {
 	var JSON = {};
 	
 	if (obj === null)
-		return null;
+		return 'null' ;
 
-	if (obj === undefined)
+	if (typeof obj === undefined)
 		return undefined; 
 
-	if (obj === boolean)
+	if (typeof obj === 'boolean')
 		return String(obj);
 
 	if (typeof obj === 'number')
@@ -20,5 +20,28 @@ var stringifyJSON = function(obj) {
 
 	if (typeof obj === 'string')
 		return '"' + obj + '"';
+
+	if (typeof obj === 'object') {
+
+		if (Object.prototype.toString.call(obj) === "[object Array]") {
+			if (obj.length === 0) {
+					return "[]";
+				}
+				return "[" + _.map(obj, stringifyJSON) + "]";
+		}
+
+
+		if (Object.prototype.toString.call(obj) === "[object Object]" ) {
+			var str = [];
+				_.each(obj, function(value, key){
+					var valStr = stringifyJSON(value);
+					if (valStr && key !== 'undefined') {
+						str.push(stringifyJSON(key) + ":" + valStr);
+					}
+				});
+				return "{" + str + "}";
+		}
+
+	}
 
 };
