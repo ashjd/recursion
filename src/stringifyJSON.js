@@ -12,8 +12,13 @@ var stringifyJSON = function(obj) {
 	if (obj === undefined)
 		return undefined; 
 
-	if (obj === false){
-		return false;
-	}
+	if (obj === boolean)
+		return String(obj);
+
+	if (typeof obj === 'number')
+		return String(obj);
+
+	if (typeof obj === 'string')
+		return '"' + obj + '"';
 
 };
