@@ -18,5 +18,24 @@ var getElementsByClassName = function(className){
 	return result;
 };
 
+var getElementsArray = function(nodes, className) {
+	if (!nodes || nodes.length <= 0) {
+		return [];
+	} else {
+		// for each node element, store it if it contains the className,
+		// search in all its child nodes (and their child nodes, so on)
+		// for the node elements that contain the className and store them
+		// into the same array.
+		var classElemsArray = [];
+		var len = nodes.length;
+		for (var i=0; i < len; i++) {
+			var node = nodes[i];
+			if (node.nodeName !== "#text" && node.classList.contains(className)) {
+				classElemsArray.push(node);
+			}
+			classElemsArray = classElemsArray.concat(getElementsArray(node.childNodes, className));
+		}
+		return classElemsArray;
+	}
 };
 
